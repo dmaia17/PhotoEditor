@@ -10,8 +10,16 @@ import UIKit
 import CoreImage
 
 class ImageEditorViewModel: NSObject {
-  var selectedImage: UIImage?
-  var imagePicker = UIImagePickerController()
+  var originalImage: UIImage?
+  
+  var selectedImage: UIImage? {
+    didSet {
+      view?.updateImage(image: selectedImage!)
+    }
+  }
+  
+  private var imagePicker = UIImagePickerController()
+  private var filter: CIFilter? = CIFilter(name: "CIColorControls")
   
   private weak var view: ImageEditorViewInterface?
   
@@ -31,14 +39,56 @@ extension ImageEditorViewModel: ImageEditorViewModelInterface {
       view.present(imagePicker, animated: true, completion: nil)
     }
   }
+  
+  func updateBrightness(value: Float) {
+    if let originalImage, let filter, let sourceImage = CIImage(image: originalImage) {
+      filter.setValue(sourceImage, forKey: kCIInputImageKey)
+      filter.setValue(value, forKey: kCIInputBrightnessKey)
+
+      guard let output = filter.outputImage else { return }
+      guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
+      let filteredImage = UIImage(cgImage: outputCGImage, scale: originalImage.scale, orientation: originalImage.imageOrientation)
+
+      print("updateBrightness: \(value)")
+      self.selectedImage = filteredImage
+    }
+  }
+  
+  func updateContrast(value: Float) {
+    if let originalImage, let filter, let sourceImage = CIImage(image: originalImage) {
+      filter.setValue(sourceImage, forKey: kCIInputImageKey)
+      filter.setValue(value, forKey: kCIInputContrastKey)
+      
+      guard let output = filter.outputImage else { return }
+      guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
+      let filteredImage = UIImage(cgImage: outputCGImage, scale: originalImage.scale, orientation: originalImage.imageOrientation)
+      
+      print("updateContrast: \(value)")
+      self.selectedImage = filteredImage
+    }
+  }
+  
+  func updateSaturation(value: Float) {
+    if let originalImage, let filter, let sourceImage = CIImage(image: originalImage) {
+      filter.setValue(sourceImage, forKey: kCIInputImageKey)
+      filter.setValue(value, forKey: kCIInputSaturationKey)
+      
+      guard let output = filter.outputImage else { return }
+      guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
+      let filteredImage = UIImage(cgImage: outputCGImage, scale: originalImage.scale, orientation: originalImage.imageOrientation)
+      
+      print("updateSaturation: \(value)")
+      self.selectedImage = filteredImage
+    }
+  }
 }
 
 extension ImageEditorViewModel: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
     if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+      self.originalImage = image
       self.selectedImage = image
-      view?.updateImage(image: image)
     }
     picker.dismiss(animated: true, completion: nil)
   }

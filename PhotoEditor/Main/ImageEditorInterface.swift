@@ -14,4 +14,8 @@ protocol ImageEditorViewInterface: AnyObject {
 
 protocol ImageEditorViewModelInterface: AnyObject {
   func selectImage(view: UIViewController)
+  
+  func updateBrightness(value: Float)
+  func updateContrast(value: Float)
+  func updateSaturation(value: Float)
 }

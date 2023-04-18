@@ -15,10 +15,9 @@
 		5178582929EEECCA00AFAC1D /* PhotoEditorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178582829EEECCA00AFAC1D /* PhotoEditorTests.swift */; };
 		5178583329EEECCA00AFAC1D /* PhotoEditorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178583229EEECCA00AFAC1D /* PhotoEditorUITests.swift */; };
 		5178583529EEECCA00AFAC1D /* PhotoEditorUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178583429EEECCA00AFAC1D /* PhotoEditorUITestsLaunchTests.swift */; };
-		5178584329EEEEFB00AFAC1D /* ImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178584229EEEEFB00AFAC1D /* ImageModel.swift */; };
-		5178584529EEEF2800AFAC1D /* ImageEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178584429EEEF2800AFAC1D /* ImageEditorView.swift */; };
 		5178584829EEEF5300AFAC1D /* ImageEditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178584729EEEF5300AFAC1D /* ImageEditorViewModel.swift */; };
 		5178584B29EF202F00AFAC1D /* ImageEditorInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178584A29EF202F00AFAC1D /* ImageEditorInterface.swift */; };
+		5178584D29EF263700AFAC1D /* ImageEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178584C29EF263700AFAC1D /* ImageEditorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,10 +50,9 @@
 		5178582E29EEECCA00AFAC1D /* PhotoEditorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoEditorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5178583229EEECCA00AFAC1D /* PhotoEditorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorUITests.swift; sourceTree = "<group>"; };
 		5178583429EEECCA00AFAC1D /* PhotoEditorUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		5178584229EEEEFB00AFAC1D /* ImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModel.swift; sourceTree = "<group>"; };
-		5178584429EEEF2800AFAC1D /* ImageEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageEditorView.swift; sourceTree = "<group>"; };
 		5178584729EEEF5300AFAC1D /* ImageEditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageEditorViewModel.swift; sourceTree = "<group>"; };
 		5178584A29EF202F00AFAC1D /* ImageEditorInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageEditorInterface.swift; sourceTree = "<group>"; };
+		5178584C29EF263700AFAC1D /* ImageEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageEditorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,7 +104,6 @@
 			isa = PBXGroup;
 			children = (
 				5178584629EEEF4800AFAC1D /* Main */,
-				5178584129EEEEEF00AFAC1D /* Model */,
 				5178581129EEECC400AFAC1D /* AppDelegate.swift */,
 				5178581329EEECC400AFAC1D /* SceneDelegate.swift */,
 				5178581A29EEECC900AFAC1D /* Assets.xcassets */,
@@ -133,21 +130,13 @@
 			path = PhotoEditorUITests;
 			sourceTree = "<group>";
 		};
-		5178584129EEEEEF00AFAC1D /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				5178584229EEEEFB00AFAC1D /* ImageModel.swift */,
-				5178584429EEEF2800AFAC1D /* ImageEditorView.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		5178584629EEEF4800AFAC1D /* Main */ = {
 			isa = PBXGroup;
 			children = (
 				5178584729EEEF5300AFAC1D /* ImageEditorViewModel.swift */,
 				5178584A29EF202F00AFAC1D /* ImageEditorInterface.swift */,
 				5178581529EEECC400AFAC1D /* ImageEditorViewController.swift */,
+				5178584C29EF263700AFAC1D /* ImageEditorView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -283,12 +272,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				5178584B29EF202F00AFAC1D /* ImageEditorInterface.swift in Sources */,
+				5178584D29EF263700AFAC1D /* ImageEditorView.swift in Sources */,
 				5178581629EEECC400AFAC1D /* ImageEditorViewController.swift in Sources */,
 				5178581229EEECC400AFAC1D /* AppDelegate.swift in Sources */,
 				5178581429EEECC400AFAC1D /* SceneDelegate.swift in Sources */,
 				5178584829EEEF5300AFAC1D /* ImageEditorViewModel.swift in Sources */,
-				5178584329EEEEFB00AFAC1D /* ImageModel.swift in Sources */,
-				5178584529EEEF2800AFAC1D /* ImageEditorView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
