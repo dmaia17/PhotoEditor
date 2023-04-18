@@ -33,15 +33,15 @@ class ImageEditorViewController: UIViewController {
   }
   
   @objc private func brightnessSliderValueChanged(_ sender: UISlider) {
-    viewModel.updateBrightness(value: sender.value)
+    viewModel.brightnessValue = sender.value
   }
   
   @objc private func contrastSliderValueChanged(_ sender: UISlider) {
-    viewModel.updateContrast(value: sender.value)
+    viewModel.contrastValue = sender.value
   }
   
   @objc private func saturationSliderValueChanged(_ sender: UISlider) {
-    viewModel.updateSaturation(value: sender.value)
+    viewModel.saturationValue = sender.value
   }
 }
 
@@ -74,6 +74,7 @@ extension ImageEditorViewController {
     contrastSlider.translatesAutoresizingMaskIntoConstraints = false
     contrastSlider.minimumValue = -1.0
     contrastSlider.maximumValue = 1.0
+    contrastSlider.value = 1.0
     contrastSlider.addTarget(self, action: #selector(contrastSliderValueChanged(_:)), for: .valueChanged)
     view.addSubview(contrastSlider)
     
@@ -81,6 +82,7 @@ extension ImageEditorViewController {
     saturationSlider.translatesAutoresizingMaskIntoConstraints = false
     saturationSlider.minimumValue = -1.0
     saturationSlider.maximumValue = 1.0
+    saturationSlider.value = 1.0
     saturationSlider.addTarget(self, action: #selector(saturationSliderValueChanged(_:)), for: .valueChanged)
     view.addSubview(saturationSlider)
     

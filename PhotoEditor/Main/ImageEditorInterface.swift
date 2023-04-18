@@ -13,6 +13,10 @@ protocol ImageEditorViewInterface: AnyObject {
 }
 
 protocol ImageEditorViewModelInterface: AnyObject {
+  var brightnessValue: Float { get set }
+  var contrastValue: Float { get set }
+  var saturationValue: Float { get set }
+  
   func selectImage(view: UIViewController)
   
   func updateBrightness(value: Float)
