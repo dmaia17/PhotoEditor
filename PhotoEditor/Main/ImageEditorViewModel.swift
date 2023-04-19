@@ -14,7 +14,7 @@ class ImageEditorViewModel: NSObject {
   
   var selectedImage: UIImage? {
     didSet {
-      view?.updateImage(image: selectedImage!)
+      view?.imageSelected(image: selectedImage!)
     }
   }
   
@@ -54,7 +54,11 @@ class ImageEditorViewModel: NSObject {
     self.view = view
   }
   
-  private func changeProperties() {
+  private func changeProperties(newImage: Bool = false) {
+    if !newImage {
+      view?.enableUpdatedsButton()
+    }
+    
     if let originalImage, let filter, let sourceImage = CIImage(image: originalImage) {
       filter.setValue(sourceImage, forKey: kCIInputImageKey)
       filter.setValue(brightnessValue, forKey: kCIInputBrightnessKey)
@@ -65,11 +69,13 @@ class ImageEditorViewModel: NSObject {
       guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
       let filteredImage = UIImage(cgImage: outputCGImage, scale: originalImage.scale, orientation: originalImage.imageOrientation)
       
-      self.selectedImage = filteredImage
+      selectedImage = filteredImage
     }
   }
   
   private func applyFiltersOnImage(index: Int) {
+    view?.enableUpdatedsButton()
+    
     switch index {
     case OptionFilters.sepia.index:
       if let originalImage, let sourceImage = CIImage(image: originalImage) {
@@ -81,7 +87,7 @@ class ImageEditorViewModel: NSObject {
         guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
         let filteredImage = UIImage(cgImage: outputCGImage, scale: originalImage.scale, orientation: originalImage.imageOrientation)
         
-        self.selectedImage = filteredImage
+        selectedImage = filteredImage
       }
       
     case OptionFilters.bloom.index:
@@ -95,7 +101,7 @@ class ImageEditorViewModel: NSObject {
         guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
         let filteredImage = UIImage(cgImage: outputCGImage, scale: originalImage.scale, orientation: originalImage.imageOrientation)
         
-        self.selectedImage = filteredImage
+        selectedImage = filteredImage
       }
       
     case OptionFilters.median.index:
@@ -107,7 +113,7 @@ class ImageEditorViewModel: NSObject {
         guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
         let filteredImage = UIImage(cgImage: outputCGImage, scale: originalImage.scale, orientation: originalImage.imageOrientation)
         
-        self.selectedImage = filteredImage
+        selectedImage = filteredImage
       }
       
     case OptionFilters.invert.index:
@@ -119,7 +125,7 @@ class ImageEditorViewModel: NSObject {
         guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
         let filteredImage = UIImage(cgImage: outputCGImage, scale: originalImage.scale, orientation: originalImage.imageOrientation)
         
-        self.selectedImage = filteredImage
+        selectedImage = filteredImage
       }
       
     case OptionFilters.edges.index:
@@ -132,7 +138,7 @@ class ImageEditorViewModel: NSObject {
         guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
         let filteredImage = UIImage(cgImage: outputCGImage, scale: originalImage.scale, orientation: originalImage.imageOrientation)
         
-        self.selectedImage = filteredImage
+        selectedImage = filteredImage
       }
       
     case OptionFilters.grayscale.index:
@@ -145,7 +151,7 @@ class ImageEditorViewModel: NSObject {
         guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
         let filteredImage = UIImage(cgImage: outputCGImage, scale: originalImage.scale, orientation: originalImage.imageOrientation)
         
-        self.selectedImage = filteredImage
+        selectedImage = filteredImage
       }
       
     default:
@@ -155,16 +161,6 @@ class ImageEditorViewModel: NSObject {
 }
 
 extension ImageEditorViewModel: ImageEditorViewModelInterface {
-  func selectImageClicked(view: UIViewController) {
-    if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
-      imagePicker.delegate = self
-      imagePicker.sourceType = .savedPhotosAlbum
-      imagePicker.allowsEditing = false
-      
-      view.present(imagePicker, animated: true, completion: nil)
-    }
-  }
-  
   func applyFilterClicked(view: UIViewController) {
     let alertController = UIAlertController(title: "Select an filter", message: nil, preferredStyle: .alert)
     
@@ -182,8 +178,27 @@ extension ImageEditorViewModel: ImageEditorViewModelInterface {
     view.present(alertController, animated: true, completion: nil)
   }
   
-  func hasImageSelected() -> Bool {
-    return originalImage != nil
+  func saveImageClicked() {
+    print("TODO: save image")
+  }
+  
+  func discardImageChangesClicked() {
+    brightnessValue = 0.0
+    contrastValue = 1.0
+    saturationValue = 1.0
+    
+    selectedImage = originalImage
+    view?.configureViewsToInitialState()
+  }
+  
+  func selectImageClicked(view: UIViewController) {
+    if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
+      imagePicker.delegate = self
+      imagePicker.sourceType = .savedPhotosAlbum
+      imagePicker.allowsEditing = false
+      
+      view.present(imagePicker, animated: true, completion: nil)
+    }
   }
 }
 
@@ -193,7 +208,7 @@ extension ImageEditorViewModel: UIImagePickerControllerDelegate, UINavigationCon
     if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
       self.originalImage = image
       self.selectedImage = image
-      changeProperties()
+      changeProperties(newImage: true)
     }
     picker.dismiss(animated: true, completion: nil)
   }

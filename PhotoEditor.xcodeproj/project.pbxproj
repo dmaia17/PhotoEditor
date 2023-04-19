@@ -18,6 +18,8 @@
 		5178584829EEEF5300AFAC1D /* ImageEditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178584729EEEF5300AFAC1D /* ImageEditorViewModel.swift */; };
 		5178584B29EF202F00AFAC1D /* ImageEditorInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178584A29EF202F00AFAC1D /* ImageEditorInterface.swift */; };
 		5178584D29EF263700AFAC1D /* ImageEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178584C29EF263700AFAC1D /* ImageEditorView.swift */; };
+		51C43CA929F00CDF009551EF /* PHEButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C43CA829F00CDF009551EF /* PHEButton.swift */; };
+		51C43CAD29F01081009551EF /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C43CAC29F01081009551EF /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,8 @@
 		5178584729EEEF5300AFAC1D /* ImageEditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageEditorViewModel.swift; sourceTree = "<group>"; };
 		5178584A29EF202F00AFAC1D /* ImageEditorInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageEditorInterface.swift; sourceTree = "<group>"; };
 		5178584C29EF263700AFAC1D /* ImageEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageEditorView.swift; sourceTree = "<group>"; };
+		51C43CA829F00CDF009551EF /* PHEButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHEButton.swift; sourceTree = "<group>"; };
+		51C43CAC29F01081009551EF /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,10 +107,11 @@
 		5178581029EEECC400AFAC1D /* PhotoEditor */ = {
 			isa = PBXGroup;
 			children = (
+				51C43CAB29F01057009551EF /* Resources */,
+				51C43CA729F00CC1009551EF /* UIComponents */,
 				5178584629EEEF4800AFAC1D /* Main */,
 				5178581129EEECC400AFAC1D /* AppDelegate.swift */,
 				5178581329EEECC400AFAC1D /* SceneDelegate.swift */,
-				5178581A29EEECC900AFAC1D /* Assets.xcassets */,
 				5178581C29EEECC900AFAC1D /* LaunchScreen.storyboard */,
 				5178581F29EEECC900AFAC1D /* Info.plist */,
 			);
@@ -139,6 +144,23 @@
 				5178584C29EF263700AFAC1D /* ImageEditorView.swift */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		51C43CA729F00CC1009551EF /* UIComponents */ = {
+			isa = PBXGroup;
+			children = (
+				51C43CA829F00CDF009551EF /* PHEButton.swift */,
+			);
+			path = UIComponents;
+			sourceTree = "<group>";
+		};
+		51C43CAB29F01057009551EF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5178581A29EEECC900AFAC1D /* Assets.xcassets */,
+				51C43CAC29F01081009551EF /* Extensions.swift */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -272,7 +294,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				5178584B29EF202F00AFAC1D /* ImageEditorInterface.swift in Sources */,
+				51C43CA929F00CDF009551EF /* PHEButton.swift in Sources */,
 				5178584D29EF263700AFAC1D /* ImageEditorView.swift in Sources */,
+				51C43CAD29F01081009551EF /* Extensions.swift in Sources */,
 				5178581629EEECC400AFAC1D /* ImageEditorViewController.swift in Sources */,
 				5178581229EEECC400AFAC1D /* AppDelegate.swift in Sources */,
 				5178581429EEECC400AFAC1D /* SceneDelegate.swift in Sources */,

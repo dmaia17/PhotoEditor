@@ -9,7 +9,9 @@ import Foundation
 import UIKit
 
 protocol ImageEditorViewInterface: AnyObject {
-  func updateImage(image: UIImage)
+  func imageSelected(image: UIImage)
+  func enableUpdatedsButton()
+  func configureViewsToInitialState()
 }
 
 protocol ImageEditorViewModelInterface: AnyObject {
@@ -17,9 +19,10 @@ protocol ImageEditorViewModelInterface: AnyObject {
   var contrastValue: Float { get set }
   var saturationValue: Float { get set }
   
-  func selectImageClicked(view: UIViewController)
   func applyFilterClicked(view: UIViewController)
-  func hasImageSelected() -> Bool
+  func saveImageClicked()
+  func discardImageChangesClicked()
+  func selectImageClicked(view: UIViewController)
 }
 
 enum OptionFilters {
