@@ -32,7 +32,6 @@ enum OptionFilters {
   case bloom
   case median
   case invert
-  case edges
   case grayscale
   
   var description: String {
@@ -45,8 +44,6 @@ enum OptionFilters {
       return "Median"
     case .invert:
       return "Color Invert"
-    case .edges:
-      return "Edges"
     case .grayscale:
       return "Grayscale"
     default:
@@ -64,8 +61,6 @@ enum OptionFilters {
       return "CIMedianFilter"
     case .invert:
       return "CIColorInvert"
-    case .edges:
-      return "CIEdges"
     case .grayscale:
       return "CIColorControls"
     default:
@@ -83,10 +78,8 @@ enum OptionFilters {
       return 2
     case .invert:
       return 3
-    case .edges:
-      return 4
     case .grayscale:
-      return 5
+      return 4
     default:
       return -1
     }
@@ -103,8 +96,6 @@ enum OptionFilters {
     case 3:
       return .invert
     case 4:
-      return .edges
-    case 5:
       return .grayscale
     default:
       return .original

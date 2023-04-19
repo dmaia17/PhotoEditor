@@ -51,7 +51,6 @@ class ImageEditorViewModel: NSObject {
     OptionFilters.bloom.description,
     OptionFilters.median.description,
     OptionFilters.invert.description,
-    OptionFilters.edges.description,
     OptionFilters.grayscale.description
   ]
   
@@ -59,105 +58,79 @@ class ImageEditorViewModel: NSObject {
     self.view = view
   }
   
+  private func applyFilter(image: UIImage, filter: CIFilter) -> UIImage? {
+    guard let output = filter.outputImage else { return nil }
+    guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return nil }
+    return UIImage(cgImage: outputCGImage, scale: image.scale, orientation: image.imageOrientation)
+  }
+  
   private func imageWithNewPropertiesApplied() -> UIImage? {
-    let Colorsfilter: CIFilter? = CIFilter(name: "CIColorControls")
+    let filter: CIFilter? = CIFilter(name: "CIColorControls")
     
-    if let originalImage, let Colorsfilter, let sourceImage = CIImage(image: originalImage) {
-      Colorsfilter.setValue(sourceImage, forKey: kCIInputImageKey)
-      Colorsfilter.setValue(brightnessValue, forKey: kCIInputBrightnessKey)
-      Colorsfilter.setValue(contrastValue, forKey: kCIInputContrastKey)
-      Colorsfilter.setValue(saturationValue, forKey: kCIInputSaturationKey)
+    if let originalImage, let filter, let sourceImage = CIImage(image: originalImage) {
+      filter.setValue(sourceImage, forKey: kCIInputImageKey)
+      filter.setValue(brightnessValue, forKey: kCIInputBrightnessKey)
+      filter.setValue(contrastValue, forKey: kCIInputContrastKey)
+      filter.setValue(saturationValue, forKey: kCIInputSaturationKey)
       
-      guard let output = Colorsfilter.outputImage else { return nil }
-      guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return nil }
-      let filteredImage = UIImage(cgImage: outputCGImage, scale: originalImage.scale, orientation: originalImage.imageOrientation)
-      
-      return filteredImage
+      return applyFilter(image: originalImage, filter: filter)
     } else {
       return nil
     }
   }
   
   private func applyFiltersOnImage() {
-    var filteredImage = imageWithNewPropertiesApplied()
+    let filteredImage = imageWithNewPropertiesApplied()
     view?.enableUpdatedsButton()
     
     switch currentFilter {
     case OptionFilters.sepia:
-      if let filteredImage, let sourceImage = CIImage(image: filteredImage) {
-        let sepiaFilter = CIFilter(name:"CISepiaTone")
-        sepiaFilter?.setValue(sourceImage, forKey: kCIInputImageKey)
-        sepiaFilter?.setValue(0.9, forKey: kCIInputIntensityKey)
+      let filter = CIFilter(name:"CISepiaTone")
+      
+      if let filteredImage, let filter, let sourceImage = CIImage(image: filteredImage) {
+        filter.setValue(sourceImage, forKey: kCIInputImageKey)
+        filter.setValue(0.9, forKey: kCIInputIntensityKey)
         
-        guard let output = sepiaFilter?.outputImage else { return }
-        guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
-        let filteredImage = UIImage(cgImage: outputCGImage, scale: filteredImage.scale, orientation: filteredImage.imageOrientation)
-        
-        selectedImage = filteredImage
+        selectedImage = applyFilter(image: filteredImage, filter: filter)
       }
       
     case OptionFilters.bloom:
-      if let filteredImage, let sourceImage = CIImage(image: filteredImage) {
-        let bloomFilter = CIFilter(name:"CIBloom")
-        bloomFilter?.setValue(sourceImage, forKey: kCIInputImageKey)
-        bloomFilter?.setValue(0.9, forKey: kCIInputIntensityKey)
-        bloomFilter?.setValue(10, forKey: kCIInputRadiusKey)
+      let filter = CIFilter(name:"CIBloom")
+      
+      if let filteredImage, let filter, let sourceImage = CIImage(image: filteredImage) {
+        filter.setValue(sourceImage, forKey: kCIInputImageKey)
+        filter.setValue(0.9, forKey: kCIInputIntensityKey)
+        filter.setValue(10, forKey: kCIInputRadiusKey)
         
-        guard let output = bloomFilter?.outputImage else { return }
-        guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
-        let filteredImage = UIImage(cgImage: outputCGImage, scale: filteredImage.scale, orientation: filteredImage.imageOrientation)
-        
-        selectedImage = filteredImage
+        selectedImage = applyFilter(image: filteredImage, filter: filter)
       }
       
     case OptionFilters.median:
-      if let filteredImage, let sourceImage = CIImage(image: filteredImage) {
-        let medianFilter = CIFilter(name: "CIMedianFilter")
-        medianFilter?.setValue(sourceImage, forKey: kCIInputImageKey)
+      let filter = CIFilter(name: "CIMedianFilter")
+      
+      if let filteredImage, let filter, let sourceImage = CIImage(image: filteredImage) {
+        filter.setValue(sourceImage, forKey: kCIInputImageKey)
         
-        guard let output = medianFilter?.outputImage else { return }
-        guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
-        let filteredImage = UIImage(cgImage: outputCGImage, scale: filteredImage.scale, orientation: filteredImage.imageOrientation)
-        
-        selectedImage = filteredImage
+        selectedImage = applyFilter(image: filteredImage, filter: filter)
       }
       
     case OptionFilters.invert:
-      if let filteredImage, let sourceImage = CIImage(image: filteredImage) {
-        let invertFilter = CIFilter(name: "CIColorInvert")
-        invertFilter?.setValue(sourceImage, forKey: kCIInputImageKey)
-        
-        guard let output = invertFilter?.outputImage else { return }
-        guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
-        let filteredImage = UIImage(cgImage: outputCGImage, scale: filteredImage.scale, orientation: filteredImage.imageOrientation)
-        
-        selectedImage = filteredImage
-      }
+      let filter = CIFilter(name: "CIColorInvert")
       
-    case OptionFilters.edges:
-      if let filteredImage, let sourceImage = CIImage(image: filteredImage) {
-        let edgesFilter = CIFilter(name:"CIEdges")
-        edgesFilter?.setValue(sourceImage, forKey: kCIInputImageKey)
-        edgesFilter?.setValue(0.9, forKey: kCIInputIntensityKey)
+      if let filteredImage, let filter, let sourceImage = CIImage(image: filteredImage) {
+        filter.setValue(sourceImage, forKey: kCIInputImageKey)
         
-        guard let output = edgesFilter?.outputImage else { return }
-        guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
-        let filteredImage = UIImage(cgImage: outputCGImage, scale: filteredImage.scale, orientation: filteredImage.imageOrientation)
-        
-        selectedImage = filteredImage
+        selectedImage = applyFilter(image: filteredImage, filter: filter)
       }
       
     case OptionFilters.grayscale:
-      if let filteredImage, let sourceImage = CIImage(image: filteredImage) {
-        let filter = CIFilter(name: "CIColorControls")
-        filter!.setValue(sourceImage, forKey: kCIInputImageKey)
-        filter!.setValue(0.0, forKey: kCIInputSaturationKey)
+      let filter = CIFilter(name: "CIColorControls")
+      
+      if let filteredImage, let filter, let sourceImage = CIImage(image: filteredImage) {
+        filter.setValue(sourceImage, forKey: kCIInputImageKey)
+        filter.setValue(0.0, forKey: kCIInputSaturationKey)
         
-        guard let output = filter?.outputImage else { return }
-        guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
-        let filteredImage = UIImage(cgImage: outputCGImage, scale: filteredImage.scale, orientation: filteredImage.imageOrientation)
-        
-        selectedImage = filteredImage
+        selectedImage = applyFilter(image: filteredImage, filter: filter)
       }
       
     default:

@@ -41,8 +41,8 @@ class ImageEditorViewController: UIViewController {
   private let contrastSlider: UISlider = {
     let slider = UISlider()
     slider.translatesAutoresizingMaskIntoConstraints = false
-    slider.minimumValue = -1.0
-    slider.maximumValue = 1.0
+    slider.minimumValue = 0.0
+    slider.maximumValue = 2.0
     slider.value = 1.0
     slider.isEnabled = false
     return slider
@@ -51,8 +51,8 @@ class ImageEditorViewController: UIViewController {
   private let saturationSlider: UISlider = {
     let slider = UISlider()
     slider.translatesAutoresizingMaskIntoConstraints = false
-    slider.minimumValue = -1.0
-    slider.maximumValue = 1.0
+    slider.minimumValue = 0.0
+    slider.maximumValue = 2.0
     slider.value = 1.0
     slider.isEnabled = false
     return slider
