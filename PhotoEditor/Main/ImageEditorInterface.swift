@@ -18,8 +18,6 @@ protocol ImageEditorViewModelInterface: AnyObject {
   var saturationValue: Float { get set }
   
   func selectImage(view: UIViewController)
-  
-  func updateBrightness(value: Float)
-  func updateContrast(value: Float)
-  func updateSaturation(value: Float)
+  func applyFilter()
+  func hasImageSelected() -> Bool
 }

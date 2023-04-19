@@ -73,46 +73,12 @@ extension ImageEditorViewModel: ImageEditorViewModelInterface {
     }
   }
   
-  func updateBrightness(value: Float) {
-//    if let originalImage, let filter, let sourceImage = CIImage(image: originalImage) {
-//      filter.setValue(sourceImage, forKey: kCIInputImageKey)
-//      filter.setValue(value, forKey: kCIInputBrightnessKey)
-//
-//      guard let output = filter.outputImage else { return }
-//      guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
-//      let filteredImage = UIImage(cgImage: outputCGImage, scale: originalImage.scale, orientation: originalImage.imageOrientation)
-//
-//      print("updateBrightness: \(value)")
-//      self.selectedImage = filteredImage
-//    }
+  func applyFilter() {
+    
   }
   
-  func updateContrast(value: Float) {
-//    if let originalImage, let filter, let sourceImage = CIImage(image: originalImage) {
-//      filter.setValue(sourceImage, forKey: kCIInputImageKey)
-//      filter.setValue(value, forKey: kCIInputContrastKey)
-//
-//      guard let output = filter.outputImage else { return }
-//      guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
-//      let filteredImage = UIImage(cgImage: outputCGImage, scale: originalImage.scale, orientation: originalImage.imageOrientation)
-//
-//      print("updateContrast: \(value)")
-//      self.selectedImage = filteredImage
-//    }
-  }
-  
-  func updateSaturation(value: Float) {
-//    if let originalImage, let filter, let sourceImage = CIImage(image: originalImage) {
-//      filter.setValue(sourceImage, forKey: kCIInputImageKey)
-//      filter.setValue(value, forKey: kCIInputSaturationKey)
-//
-//      guard let output = filter.outputImage else { return }
-//      guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
-//      let filteredImage = UIImage(cgImage: outputCGImage, scale: originalImage.scale, orientation: originalImage.imageOrientation)
-//
-//      print("updateSaturation: \(value)")
-//      self.selectedImage = filteredImage
-//    }
+  func hasImageSelected() -> Bool {
+    return originalImage != nil
   }
 }
 
