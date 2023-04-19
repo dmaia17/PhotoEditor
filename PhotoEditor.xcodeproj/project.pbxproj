@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5158E83229F063B900470EB7 /* PHESlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5158E83129F063B900470EB7 /* PHESlider.swift */; };
 		5178581229EEECC400AFAC1D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178581129EEECC400AFAC1D /* AppDelegate.swift */; };
 		5178581429EEECC400AFAC1D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178581329EEECC400AFAC1D /* SceneDelegate.swift */; };
 		5178581629EEECC400AFAC1D /* ImageEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178581529EEECC400AFAC1D /* ImageEditorViewController.swift */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5158E83129F063B900470EB7 /* PHESlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHESlider.swift; sourceTree = "<group>"; };
 		5178580E29EEECC400AFAC1D /* PhotoEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5178581129EEECC400AFAC1D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5178581329EEECC400AFAC1D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -108,9 +110,9 @@
 			isa = PBXGroup;
 			children = (
 				51C43CAE29F015DA009551EF /* Configurations */,
+				5178584629EEEF4800AFAC1D /* Main */,
 				51C43CAB29F01057009551EF /* Resources */,
 				51C43CA729F00CC1009551EF /* UIComponents */,
-				5178584629EEEF4800AFAC1D /* Main */,
 			);
 			path = PhotoEditor;
 			sourceTree = "<group>";
@@ -147,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				51C43CA829F00CDF009551EF /* PHEButton.swift */,
+				5158E83129F063B900470EB7 /* PHESlider.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 				5178584B29EF202F00AFAC1D /* ImageEditorInterface.swift in Sources */,
 				51C43CA929F00CDF009551EF /* PHEButton.swift in Sources */,
 				5178584D29EF263700AFAC1D /* ImageEditorView.swift in Sources */,
+				5158E83229F063B900470EB7 /* PHESlider.swift in Sources */,
 				51C43CAD29F01081009551EF /* Extensions.swift in Sources */,
 				5178581629EEECC400AFAC1D /* ImageEditorViewController.swift in Sources */,
 				5178581229EEECC400AFAC1D /* AppDelegate.swift in Sources */,

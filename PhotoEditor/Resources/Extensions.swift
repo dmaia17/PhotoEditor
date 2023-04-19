@@ -9,15 +9,10 @@ import Foundation
 import UIKit
 
 extension UIColor {
-  static let backgroundColor: UIColor = UIColor(red: 248/255.0, green: 248/255.0, blue: 248/255.0, alpha: 1)
+  static let backgroundColor: UIColor = .white
   
   static let buttonColor: UIColor = UIColor(red: 51/255.0, green: 51/255.0, blue: 204/255.0, alpha: 1)
   static let buttonDisableColor: UIColor = UIColor(red: 178/255.0, green: 178/255.0, blue: 178/255.0, alpha: 1)
-}
-
-extension UIFont {
-  static let mainFont: UIFont = UIFont(name: "helvetica", size: 14)!
-  static let titleFont: UIFont = UIFont(name: "helvetica", size: 22)!
 }
 
 struct Margins {

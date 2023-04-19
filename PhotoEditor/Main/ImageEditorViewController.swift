@@ -25,35 +25,27 @@ class ImageEditorViewController: UIViewController {
     let imageView = UIImageView()
     imageView.translatesAutoresizingMaskIntoConstraints = false
     imageView.contentMode = .scaleAspectFit
-    imageView.backgroundColor = .lightGray
+    imageView.image = UIImage(named: "emptyImage")
     return imageView
   }()
   
-  private let brightnessSlider: UISlider = {
-    let slider = UISlider()
+  private let brightnessSlider: PHESlider = {
+    let slider = PHESlider()
     slider.translatesAutoresizingMaskIntoConstraints = false
-    slider.minimumValue = -1.0
-    slider.maximumValue = 1.0
     slider.isEnabled = false
     return slider
   }()
   
-  private let contrastSlider: UISlider = {
-    let slider = UISlider()
+  private let contrastSlider: PHESlider = {
+    let slider = PHESlider()
     slider.translatesAutoresizingMaskIntoConstraints = false
-    slider.minimumValue = 0.0
-    slider.maximumValue = 2.0
-    slider.value = 1.0
     slider.isEnabled = false
     return slider
   }()
   
-  private let saturationSlider: UISlider = {
-    let slider = UISlider()
+  private let saturationSlider: PHESlider = {
+    let slider = PHESlider()
     slider.translatesAutoresizingMaskIntoConstraints = false
-    slider.minimumValue = 0.0
-    slider.maximumValue = 2.0
-    slider.value = 1.0
     slider.isEnabled = false
     return slider
   }()
@@ -95,16 +87,29 @@ class ImageEditorViewController: UIViewController {
     super.viewDidLoad()
     createView()
     configureActions()
+    configureSliders()
   }
   
   private func configureActions() {
-    brightnessSlider.addTarget(self, action: #selector(brightnessSliderValueChanged(_:)), for: .valueChanged)
-    contrastSlider.addTarget(self, action: #selector(contrastSliderValueChanged(_:)), for: .valueChanged)
-    saturationSlider.addTarget(self, action: #selector(saturationSliderValueChanged(_:)), for: .valueChanged)
     imageFilterButton.addTarget(self, action: #selector(imageFilterButtonClicked), for: .touchUpInside)
     saveImageButton.addTarget(self, action: #selector(saveImageButtonClicked), for: .touchUpInside)
     discardChangesButton.addTarget(self, action: #selector(discardChangesButtonClicked), for: .touchUpInside)
     selectImageButton.addTarget(self, action: #selector(selectImageButtonClicked), for: .touchUpInside)
+  }
+  
+  private func configureSliders() {
+    brightnessSlider.delegate = self
+    brightnessSlider.isEnabled = false
+    
+    contrastSlider.delegate = self
+    contrastSlider.isEnabled = false
+    
+    saturationSlider.delegate = self
+    saturationSlider.isEnabled = false
+    
+    brightnessSlider.configureView(text: "Brightness", value: 0.0, minValue: -1.0, maxValue: 1.0)
+    contrastSlider.configureView(text: "Contrast", value: 1.0, minValue: 0.0, maxValue: 2.0)
+    saturationSlider.configureView(text: "Saturation", value: 1.0, minValue: 0.0, maxValue: 2.0)
   }
   
   @objc private func imageFilterButtonClicked(_ sender: UIButton) {
@@ -121,18 +126,6 @@ class ImageEditorViewController: UIViewController {
   
   @objc private func selectImageButtonClicked(_ sender: UIButton) {
     viewModel.selectImageClicked()
-  }
-  
-  @objc private func brightnessSliderValueChanged(_ sender: UISlider) {
-    viewModel.brightnessValue = sender.value
-  }
-  
-  @objc private func contrastSliderValueChanged(_ sender: UISlider) {
-    viewModel.contrastValue = sender.value
-  }
-  
-  @objc private func saturationSliderValueChanged(_ sender: UISlider) {
-    viewModel.saturationValue = sender.value
   }
 }
 
@@ -203,14 +196,17 @@ extension ImageEditorViewController {
       brightnessSlider.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Margins.defaultMargin),
       brightnessSlider.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Margins.defaultMargin),
       brightnessSlider.bottomAnchor.constraint(equalTo: contrastSlider.topAnchor, constant: -Margins.defaultMargin),
+      brightnessSlider.heightAnchor.constraint(equalToConstant: 50),
       
       contrastSlider.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Margins.defaultMargin),
       contrastSlider.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Margins.defaultMargin),
       contrastSlider.bottomAnchor.constraint(equalTo: saturationSlider.topAnchor, constant: -Margins.defaultMargin),
+      contrastSlider.heightAnchor.constraint(equalToConstant: 50),
       
       saturationSlider.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Margins.defaultMargin),
       saturationSlider.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Margins.defaultMargin),
       saturationSlider.bottomAnchor.constraint(equalTo: selectImageButton.topAnchor, constant: -Margins.defaultMargin),
+      saturationSlider.heightAnchor.constraint(equalToConstant: 50),
       
       selectImageButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Margins.defaultMargin),
       selectImageButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Margins.defaultMargin),
@@ -228,5 +224,20 @@ extension ImageEditorViewController {
       discardChangesButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Margins.defaultMargin),
       discardChangesButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Margins.defaultMargin)
     ])
+  }
+}
+
+extension ImageEditorViewController: PHESliderProtocol {
+  func valueChanged(_ sender: PHESlider, value: Float) {
+    switch sender {
+    case brightnessSlider:
+      viewModel.brightnessValue = value
+    case contrastSlider:
+      viewModel.contrastValue = value
+    case saturationSlider:
+      viewModel.saturationValue = value
+    default:
+      break
+    }
   }
 }

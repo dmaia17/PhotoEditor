@@ -12,7 +12,7 @@ public class PHEButton: UIButton {
   private var textButton: String = ""
   private var border = CAShapeLayer()
   
-  ///if the "isEnabled" variable is falsse, it disables the button interactions
+  ///if the "isEnabled" variable is false, it disables the button interactions
   override public var isEnabled: Bool {
     didSet {
       setDisable(disabled: !isEnabled)
