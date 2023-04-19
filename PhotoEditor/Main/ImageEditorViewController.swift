@@ -83,11 +83,11 @@ class ImageEditorViewController: UIViewController {
   }
 
   @objc private func selectImageButtonTapped(_ sender: UIButton) {
-    viewModel.selectImage(view: self)
+    viewModel.selectImageClicked(view: self)
   }
   
   @objc private func selectImageFilterButtonTapped(_ sender: UIButton) {
-    viewModel.applyFilter()
+    viewModel.applyFilterClicked(view: self)
   }
 
   @objc private func brightnessSliderValueChanged(_ sender: UISlider) {
