@@ -77,7 +77,7 @@ class ImageEditorViewController: UIViewController {
   private let selectImageButton: PHEButton = {
     let button = PHEButton()
     button.translatesAutoresizingMaskIntoConstraints = false
-    button.setTitle("Select a image", for: .normal)
+    button.setTitle("Select an image", for: .normal)
     return button
   }()
   

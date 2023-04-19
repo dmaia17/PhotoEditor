@@ -155,7 +155,7 @@ class ImageEditorViewModel: NSObject {
 extension ImageEditorViewModel: ImageEditorViewModelInterface {
   func applyFilterClicked() {
     if let view {
-      let alertController = UIAlertController(title: "Select an filter", message: nil, preferredStyle: .alert)
+      let alertController = UIAlertController(title: "Select a filter", message: nil, preferredStyle: .alert)
       
       for (index, option) in filterOptions.enumerated() {
         let action = UIAlertAction(title: option, style: .default) { (action) in
