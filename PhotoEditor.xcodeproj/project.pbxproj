@@ -18,7 +18,6 @@
 		5178583529EEECCA00AFAC1D /* PhotoEditorUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178583429EEECCA00AFAC1D /* PhotoEditorUITestsLaunchTests.swift */; };
 		5178584829EEEF5300AFAC1D /* ImageEditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178584729EEEF5300AFAC1D /* ImageEditorViewModel.swift */; };
 		5178584B29EF202F00AFAC1D /* ImageEditorInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178584A29EF202F00AFAC1D /* ImageEditorInterface.swift */; };
-		5178584D29EF263700AFAC1D /* ImageEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178584C29EF263700AFAC1D /* ImageEditorView.swift */; };
 		51C43CA929F00CDF009551EF /* PHEButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C43CA829F00CDF009551EF /* PHEButton.swift */; };
 		51C43CAD29F01081009551EF /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C43CAC29F01081009551EF /* Extensions.swift */; };
 /* End PBXBuildFile section */
@@ -56,7 +55,6 @@
 		5178583429EEECCA00AFAC1D /* PhotoEditorUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		5178584729EEEF5300AFAC1D /* ImageEditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageEditorViewModel.swift; sourceTree = "<group>"; };
 		5178584A29EF202F00AFAC1D /* ImageEditorInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageEditorInterface.swift; sourceTree = "<group>"; };
-		5178584C29EF263700AFAC1D /* ImageEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageEditorView.swift; sourceTree = "<group>"; };
 		51C43CA829F00CDF009551EF /* PHEButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHEButton.swift; sourceTree = "<group>"; };
 		51C43CAC29F01081009551EF /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -140,7 +138,6 @@
 				5178584729EEEF5300AFAC1D /* ImageEditorViewModel.swift */,
 				5178584A29EF202F00AFAC1D /* ImageEditorInterface.swift */,
 				5178581529EEECC400AFAC1D /* ImageEditorViewController.swift */,
-				5178584C29EF263700AFAC1D /* ImageEditorView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -306,7 +303,6 @@
 			files = (
 				5178584B29EF202F00AFAC1D /* ImageEditorInterface.swift in Sources */,
 				51C43CA929F00CDF009551EF /* PHEButton.swift in Sources */,
-				5178584D29EF263700AFAC1D /* ImageEditorView.swift in Sources */,
 				5158E83229F063B900470EB7 /* PHESlider.swift in Sources */,
 				51C43CAD29F01081009551EF /* Extensions.swift in Sources */,
 				5178581629EEECC400AFAC1D /* ImageEditorViewController.swift in Sources */,
