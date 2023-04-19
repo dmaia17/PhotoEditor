@@ -18,7 +18,9 @@ class ImageEditorViewModel: NSObject {
   
   var selectedImage: UIImage? {
     didSet {
-      view?.imageSelected(image: selectedImage!)
+      if let selectedImage {
+        view?.imageSelected(image: selectedImage)
+      }
     }
   }
   
