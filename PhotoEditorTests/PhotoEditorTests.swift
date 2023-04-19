@@ -47,7 +47,6 @@ final class PhotoEditorTests: XCTestCase {
     XCTAssertEqual(viewModel.saturationValue, saturationValue)
   }
   
-  
   func testFilterOptions() {
     let expectedFilterOptions = [
       OptionFilters.sepia.description,
