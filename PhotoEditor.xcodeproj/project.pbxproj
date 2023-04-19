@@ -107,13 +107,10 @@
 		5178581029EEECC400AFAC1D /* PhotoEditor */ = {
 			isa = PBXGroup;
 			children = (
+				51C43CAE29F015DA009551EF /* Configurations */,
 				51C43CAB29F01057009551EF /* Resources */,
 				51C43CA729F00CC1009551EF /* UIComponents */,
 				5178584629EEEF4800AFAC1D /* Main */,
-				5178581129EEECC400AFAC1D /* AppDelegate.swift */,
-				5178581329EEECC400AFAC1D /* SceneDelegate.swift */,
-				5178581C29EEECC900AFAC1D /* LaunchScreen.storyboard */,
-				5178581F29EEECC900AFAC1D /* Info.plist */,
 			);
 			path = PhotoEditor;
 			sourceTree = "<group>";
@@ -161,6 +158,17 @@
 				51C43CAC29F01081009551EF /* Extensions.swift */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		51C43CAE29F015DA009551EF /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				5178581129EEECC400AFAC1D /* AppDelegate.swift */,
+				5178581329EEECC400AFAC1D /* SceneDelegate.swift */,
+				5178581C29EEECC900AFAC1D /* LaunchScreen.storyboard */,
+				5178581F29EEECC900AFAC1D /* Info.plist */,
+			);
+			path = Configurations;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -472,11 +480,12 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = DQLEP72E56;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PhotoEditor/Info.plist;
+				INFOPLIST_FILE = PhotoEditor/Configurations/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -501,11 +510,12 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = DQLEP72E56;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PhotoEditor/Info.plist;
+				INFOPLIST_FILE = PhotoEditor/Configurations/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

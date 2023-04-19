@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 protocol ImageEditorViewInterface: AnyObject {
+  func getView() -> UIViewController
   func imageSelected(image: UIImage)
   func enableUpdatedsButton()
   func configureViewsToInitialState()
@@ -19,13 +20,14 @@ protocol ImageEditorViewModelInterface: AnyObject {
   var contrastValue: Float { get set }
   var saturationValue: Float { get set }
   
-  func applyFilterClicked(view: UIViewController)
+  func applyFilterClicked()
   func saveImageClicked()
   func discardImageChangesClicked()
-  func selectImageClicked(view: UIViewController)
+  func selectImageClicked()
 }
 
 enum OptionFilters {
+  case original
   case sepia
   case bloom
   case median
@@ -47,6 +49,8 @@ enum OptionFilters {
       return "Edges"
     case .grayscale:
       return "Grayscale"
+    default:
+      return ""
     }
   }
   
@@ -64,6 +68,8 @@ enum OptionFilters {
       return "CIEdges"
     case .grayscale:
       return "CIColorControls"
+    default:
+      return ""
     }
   }
   
@@ -81,6 +87,27 @@ enum OptionFilters {
       return 4
     case .grayscale:
       return 5
+    default:
+      return -1
+    }
+  }
+  
+  static func fromIndex(_ index: Int) -> OptionFilters {
+    switch index {
+    case 0:
+      return .sepia
+    case 1:
+      return .bloom
+    case 2:
+      return .median
+    case 3:
+      return .invert
+    case 4:
+      return .edges
+    case 5:
+      return .grayscale
+    default:
+      return .original
     }
   }
 }

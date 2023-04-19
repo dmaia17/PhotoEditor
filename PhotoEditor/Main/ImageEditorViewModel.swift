@@ -8,9 +8,13 @@
 import Foundation
 import UIKit
 import CoreImage
+import Photos
 
 class ImageEditorViewModel: NSObject {
-  var originalImage: UIImage?
+  
+  private weak var view: ImageEditorViewInterface?
+  private var imagePicker = UIImagePickerController()
+  private var originalImage: UIImage?
   
   var selectedImage: UIImage? {
     didSet {
@@ -20,24 +24,27 @@ class ImageEditorViewModel: NSObject {
   
   var brightnessValue: Float = 0.0 {
     didSet {
-      changeProperties()
+      applyFiltersOnImage()
     }
   }
   
   var contrastValue: Float = 1.0 {
     didSet {
-      changeProperties()
+      applyFiltersOnImage()
     }
   }
   
   var saturationValue: Float = 1.0 {
     didSet {
-      changeProperties()
+      applyFiltersOnImage()
     }
   }
   
-  private var imagePicker = UIImagePickerController()
-  private var filter: CIFilter? = CIFilter(name: "CIColorControls")
+  private var currentFilter: OptionFilters = OptionFilters.original {
+    didSet {
+      applyFiltersOnImage()
+    }
+  }
   
   let filterOptions = [
     OptionFilters.sepia.description,
@@ -48,50 +55,49 @@ class ImageEditorViewModel: NSObject {
     OptionFilters.grayscale.description
   ]
   
-  private weak var view: ImageEditorViewInterface?
-  
   init(view: ImageEditorViewInterface) {
     self.view = view
   }
   
-  private func changeProperties(newImage: Bool = false) {
-    if !newImage {
-      view?.enableUpdatedsButton()
-    }
+  private func imageWithNewPropertiesApplied() -> UIImage? {
+    let Colorsfilter: CIFilter? = CIFilter(name: "CIColorControls")
     
-    if let originalImage, let filter, let sourceImage = CIImage(image: originalImage) {
-      filter.setValue(sourceImage, forKey: kCIInputImageKey)
-      filter.setValue(brightnessValue, forKey: kCIInputBrightnessKey)
-      filter.setValue(contrastValue, forKey: kCIInputContrastKey)
-      filter.setValue(saturationValue, forKey: kCIInputSaturationKey)
+    if let originalImage, let Colorsfilter, let sourceImage = CIImage(image: originalImage) {
+      Colorsfilter.setValue(sourceImage, forKey: kCIInputImageKey)
+      Colorsfilter.setValue(brightnessValue, forKey: kCIInputBrightnessKey)
+      Colorsfilter.setValue(contrastValue, forKey: kCIInputContrastKey)
+      Colorsfilter.setValue(saturationValue, forKey: kCIInputSaturationKey)
       
-      guard let output = filter.outputImage else { return }
-      guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
+      guard let output = Colorsfilter.outputImage else { return nil }
+      guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return nil }
       let filteredImage = UIImage(cgImage: outputCGImage, scale: originalImage.scale, orientation: originalImage.imageOrientation)
       
-      selectedImage = filteredImage
+      return filteredImage
+    } else {
+      return nil
     }
   }
   
-  private func applyFiltersOnImage(index: Int) {
+  private func applyFiltersOnImage() {
+    var filteredImage = imageWithNewPropertiesApplied()
     view?.enableUpdatedsButton()
     
-    switch index {
-    case OptionFilters.sepia.index:
-      if let originalImage, let sourceImage = CIImage(image: originalImage) {
+    switch currentFilter {
+    case OptionFilters.sepia:
+      if let filteredImage, let sourceImage = CIImage(image: filteredImage) {
         let sepiaFilter = CIFilter(name:"CISepiaTone")
         sepiaFilter?.setValue(sourceImage, forKey: kCIInputImageKey)
         sepiaFilter?.setValue(0.9, forKey: kCIInputIntensityKey)
         
         guard let output = sepiaFilter?.outputImage else { return }
         guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
-        let filteredImage = UIImage(cgImage: outputCGImage, scale: originalImage.scale, orientation: originalImage.imageOrientation)
+        let filteredImage = UIImage(cgImage: outputCGImage, scale: filteredImage.scale, orientation: filteredImage.imageOrientation)
         
         selectedImage = filteredImage
       }
       
-    case OptionFilters.bloom.index:
-      if let originalImage, let sourceImage = CIImage(image: originalImage) {
+    case OptionFilters.bloom:
+      if let filteredImage, let sourceImage = CIImage(image: filteredImage) {
         let bloomFilter = CIFilter(name:"CIBloom")
         bloomFilter?.setValue(sourceImage, forKey: kCIInputImageKey)
         bloomFilter?.setValue(0.9, forKey: kCIInputIntensityKey)
@@ -99,105 +105,123 @@ class ImageEditorViewModel: NSObject {
         
         guard let output = bloomFilter?.outputImage else { return }
         guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
-        let filteredImage = UIImage(cgImage: outputCGImage, scale: originalImage.scale, orientation: originalImage.imageOrientation)
+        let filteredImage = UIImage(cgImage: outputCGImage, scale: filteredImage.scale, orientation: filteredImage.imageOrientation)
         
         selectedImage = filteredImage
       }
       
-    case OptionFilters.median.index:
-      if let originalImage, let sourceImage = CIImage(image: originalImage) {
+    case OptionFilters.median:
+      if let filteredImage, let sourceImage = CIImage(image: filteredImage) {
         let medianFilter = CIFilter(name: "CIMedianFilter")
         medianFilter?.setValue(sourceImage, forKey: kCIInputImageKey)
         
         guard let output = medianFilter?.outputImage else { return }
         guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
-        let filteredImage = UIImage(cgImage: outputCGImage, scale: originalImage.scale, orientation: originalImage.imageOrientation)
+        let filteredImage = UIImage(cgImage: outputCGImage, scale: filteredImage.scale, orientation: filteredImage.imageOrientation)
         
         selectedImage = filteredImage
       }
       
-    case OptionFilters.invert.index:
-      if let originalImage, let sourceImage = CIImage(image: originalImage) {
+    case OptionFilters.invert:
+      if let filteredImage, let sourceImage = CIImage(image: filteredImage) {
         let invertFilter = CIFilter(name: "CIColorInvert")
         invertFilter?.setValue(sourceImage, forKey: kCIInputImageKey)
         
         guard let output = invertFilter?.outputImage else { return }
         guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
-        let filteredImage = UIImage(cgImage: outputCGImage, scale: originalImage.scale, orientation: originalImage.imageOrientation)
+        let filteredImage = UIImage(cgImage: outputCGImage, scale: filteredImage.scale, orientation: filteredImage.imageOrientation)
         
         selectedImage = filteredImage
       }
       
-    case OptionFilters.edges.index:
-      if let originalImage, let sourceImage = CIImage(image: originalImage) {
+    case OptionFilters.edges:
+      if let filteredImage, let sourceImage = CIImage(image: filteredImage) {
         let edgesFilter = CIFilter(name:"CIEdges")
         edgesFilter?.setValue(sourceImage, forKey: kCIInputImageKey)
         edgesFilter?.setValue(0.9, forKey: kCIInputIntensityKey)
         
         guard let output = edgesFilter?.outputImage else { return }
         guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
-        let filteredImage = UIImage(cgImage: outputCGImage, scale: originalImage.scale, orientation: originalImage.imageOrientation)
+        let filteredImage = UIImage(cgImage: outputCGImage, scale: filteredImage.scale, orientation: filteredImage.imageOrientation)
         
         selectedImage = filteredImage
       }
       
-    case OptionFilters.grayscale.index:
-      if let originalImage, let sourceImage = CIImage(image: originalImage) {
+    case OptionFilters.grayscale:
+      if let filteredImage, let sourceImage = CIImage(image: filteredImage) {
         let filter = CIFilter(name: "CIColorControls")
         filter!.setValue(sourceImage, forKey: kCIInputImageKey)
         filter!.setValue(0.0, forKey: kCIInputSaturationKey)
         
         guard let output = filter?.outputImage else { return }
         guard let outputCGImage = CIContext().createCGImage(output, from: output.extent) else { return }
-        let filteredImage = UIImage(cgImage: outputCGImage, scale: originalImage.scale, orientation: originalImage.imageOrientation)
+        let filteredImage = UIImage(cgImage: outputCGImage, scale: filteredImage.scale, orientation: filteredImage.imageOrientation)
         
         selectedImage = filteredImage
       }
       
     default:
-      break
+      selectedImage = filteredImage
+    }
+  }
+  
+  @objc func saveCompleted(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+    if let view {
+      let alertController = UIAlertController(title: nil, message: "Image saved on gallery!", preferredStyle: .alert)
+      
+      let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+      alertController.addAction(okAction)
+      
+      view.getView().present(alertController, animated: true, completion: nil)
     }
   }
 }
 
 extension ImageEditorViewModel: ImageEditorViewModelInterface {
-  func applyFilterClicked(view: UIViewController) {
-    let alertController = UIAlertController(title: "Select an filter", message: nil, preferredStyle: .alert)
-    
-    for (index, option) in filterOptions.enumerated() {
-      let action = UIAlertAction(title: option, style: .default) { (action) in
-        self.applyFiltersOnImage(index: index)
+  func applyFilterClicked() {
+    if let view {
+      let alertController = UIAlertController(title: "Select an filter", message: nil, preferredStyle: .alert)
+      
+      for (index, option) in filterOptions.enumerated() {
+        let action = UIAlertAction(title: option, style: .default) { (action) in
+          self.currentFilter = OptionFilters.fromIndex(index)
+        }
+        
+        alertController.addAction(action)
       }
       
-      alertController.addAction(action)
+      let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+      alertController.addAction(cancelAction)
+      
+      view.getView().present(alertController, animated: true, completion: nil)
     }
-    
-    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-    alertController.addAction(cancelAction)
-    
-    view.present(alertController, animated: true, completion: nil)
   }
   
   func saveImageClicked() {
-    print("TODO: save image")
+    if let selectedImage {
+      UIImageWriteToSavedPhotosAlbum(selectedImage, self, #selector(saveCompleted), nil)
+    }
   }
   
   func discardImageChangesClicked() {
     brightnessValue = 0.0
     contrastValue = 1.0
     saturationValue = 1.0
+    currentFilter = OptionFilters.original
     
     selectedImage = originalImage
     view?.configureViewsToInitialState()
   }
   
-  func selectImageClicked(view: UIViewController) {
-    if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
-      imagePicker.delegate = self
-      imagePicker.sourceType = .savedPhotosAlbum
-      imagePicker.allowsEditing = false
-      
-      view.present(imagePicker, animated: true, completion: nil)
+  func selectImageClicked() {
+    if let view {
+      if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
+        imagePicker.delegate = self
+        imagePicker.sourceType = .savedPhotosAlbum
+        imagePicker.allowsEditing = false
+        
+        view.getView().present(imagePicker, animated: true, completion: nil)
+      }
     }
   }
 }
@@ -206,9 +230,11 @@ extension ImageEditorViewModel: UIImagePickerControllerDelegate, UINavigationCon
   
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
     if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-      self.originalImage = image
-      self.selectedImage = image
-      changeProperties(newImage: true)
+      originalImage = image
+      selectedImage = image
+      currentFilter = OptionFilters.original
+      
+      applyFiltersOnImage()
     }
     picker.dismiss(animated: true, completion: nil)
   }

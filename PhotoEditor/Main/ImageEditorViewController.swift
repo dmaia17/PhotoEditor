@@ -108,7 +108,7 @@ class ImageEditorViewController: UIViewController {
   }
   
   @objc private func imageFilterButtonClicked(_ sender: UIButton) {
-    viewModel.applyFilterClicked(view: self)
+    viewModel.applyFilterClicked()
   }
   
   @objc private func saveImageButtonClicked(_ sender: UIButton) {
@@ -120,7 +120,7 @@ class ImageEditorViewController: UIViewController {
   }
   
   @objc private func selectImageButtonClicked(_ sender: UIButton) {
-    viewModel.selectImageClicked(view: self)
+    viewModel.selectImageClicked()
   }
   
   @objc private func brightnessSliderValueChanged(_ sender: UISlider) {
@@ -137,6 +137,10 @@ class ImageEditorViewController: UIViewController {
 }
 
 extension ImageEditorViewController: ImageEditorViewInterface {
+  func getView() -> UIViewController {
+    return self
+  }
+  
   func imageSelected(image: UIImage) {
     imageView.image = image
     
