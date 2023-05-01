@@ -85,64 +85,65 @@ class ImageEditorViewModel: NSObject {
     }
 
     private func applyFiltersOnImage() {
-        imageWithNewPropertiesApplied(completion: { filteredImage in
-            self.view?.enableUpdatedsButton()
+        imageWithNewPropertiesApplied(completion: { [weak self] filteredImage in
+            if let self {
+                self.view?.enableUpdatedsButton()
 
-            switch self.currentFilter {
-            case OptionFilters.sepia:
-                let filter = CIFilter(name:"CISepiaTone")
+                switch self.currentFilter {
+                case OptionFilters.sepia:
+                    let filter = CIFilter(name:"CISepiaTone")
 
-                if let filteredImage, let filter, let sourceImage = CIImage(image: filteredImage) {
-                    filter.setValue(sourceImage, forKey: kCIInputImageKey)
-                    filter.setValue(0.9, forKey: kCIInputIntensityKey)
+                    if let filteredImage, let filter, let sourceImage = CIImage(image: filteredImage) {
+                        filter.setValue(sourceImage, forKey: kCIInputImageKey)
+                        filter.setValue(0.9, forKey: kCIInputIntensityKey)
 
-                    self.selectedImage = self.applyFilter(image: filteredImage, filter: filter)
+                        self.selectedImage = self.applyFilter(image: filteredImage, filter: filter)
+                    }
+
+                case OptionFilters.bloom:
+                    let filter = CIFilter(name:"CIBloom")
+
+                    if let filteredImage, let filter, let sourceImage = CIImage(image: filteredImage) {
+                        filter.setValue(sourceImage, forKey: kCIInputImageKey)
+                        filter.setValue(0.9, forKey: kCIInputIntensityKey)
+                        filter.setValue(10, forKey: kCIInputRadiusKey)
+
+                        self.selectedImage = self.applyFilter(image: filteredImage, filter: filter)
+                    }
+
+                case OptionFilters.median:
+                    let filter = CIFilter(name: "CIMedianFilter")
+
+                    if let filteredImage, let filter, let sourceImage = CIImage(image: filteredImage) {
+                        filter.setValue(sourceImage, forKey: kCIInputImageKey)
+
+                        self.selectedImage = self.applyFilter(image: filteredImage, filter: filter)
+                    }
+
+                case OptionFilters.invert:
+                    let filter = CIFilter(name: "CIColorInvert")
+
+                    if let filteredImage, let filter, let sourceImage = CIImage(image: filteredImage) {
+                        filter.setValue(sourceImage, forKey: kCIInputImageKey)
+
+                        self.selectedImage = self.applyFilter(image: filteredImage, filter: filter)
+                    }
+
+                case OptionFilters.grayscale:
+                    let filter = CIFilter(name: "CIColorControls")
+
+                    if let filteredImage, let filter, let sourceImage = CIImage(image: filteredImage) {
+                        filter.setValue(sourceImage, forKey: kCIInputImageKey)
+                        filter.setValue(0.0, forKey: kCIInputSaturationKey)
+
+                        self.selectedImage = self.applyFilter(image: filteredImage, filter: filter)
+                    }
+
+                default:
+                    self.selectedImage = filteredImage
                 }
-
-            case OptionFilters.bloom:
-                let filter = CIFilter(name:"CIBloom")
-
-                if let filteredImage, let filter, let sourceImage = CIImage(image: filteredImage) {
-                    filter.setValue(sourceImage, forKey: kCIInputImageKey)
-                    filter.setValue(0.9, forKey: kCIInputIntensityKey)
-                    filter.setValue(10, forKey: kCIInputRadiusKey)
-
-                    self.selectedImage = self.applyFilter(image: filteredImage, filter: filter)
-                }
-
-            case OptionFilters.median:
-                let filter = CIFilter(name: "CIMedianFilter")
-
-                if let filteredImage, let filter, let sourceImage = CIImage(image: filteredImage) {
-                    filter.setValue(sourceImage, forKey: kCIInputImageKey)
-
-                    self.selectedImage = self.applyFilter(image: filteredImage, filter: filter)
-                }
-
-            case OptionFilters.invert:
-                let filter = CIFilter(name: "CIColorInvert")
-
-                if let filteredImage, let filter, let sourceImage = CIImage(image: filteredImage) {
-                    filter.setValue(sourceImage, forKey: kCIInputImageKey)
-
-                    self.selectedImage = self.applyFilter(image: filteredImage, filter: filter)
-                }
-
-            case OptionFilters.grayscale:
-                let filter = CIFilter(name: "CIColorControls")
-
-                if let filteredImage, let filter, let sourceImage = CIImage(image: filteredImage) {
-                    filter.setValue(sourceImage, forKey: kCIInputImageKey)
-                    filter.setValue(0.0, forKey: kCIInputSaturationKey)
-
-                    self.selectedImage = self.applyFilter(image: filteredImage, filter: filter)
-                }
-
-            default:
-                self.selectedImage = filteredImage
             }
         })
-
     }
 
     @objc func saveCompleted(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
