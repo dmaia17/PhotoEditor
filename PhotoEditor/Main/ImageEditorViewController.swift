@@ -8,109 +8,42 @@
 import UIKit
 
 class ImageEditorViewController: UIViewController {
-
-    private let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        return scrollView
-    }()
-
-    private let contentView: UIView = {
-        let contentView = UIView()
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        return contentView
-    }()
-
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "emptyImage")
-        return imageView
-    }()
-
-    private let brightnessSlider: PHESlider = {
-        let slider = PHESlider()
-        slider.translatesAutoresizingMaskIntoConstraints = false
-        slider.isEnabled = false
-        return slider
-    }()
-
-    private let contrastSlider: PHESlider = {
-        let slider = PHESlider()
-        slider.translatesAutoresizingMaskIntoConstraints = false
-        slider.isEnabled = false
-        return slider
-    }()
-
-    private let saturationSlider: PHESlider = {
-        let slider = PHESlider()
-        slider.translatesAutoresizingMaskIntoConstraints = false
-        slider.isEnabled = false
-        return slider
-    }()
-
-    private let imageFilterButton: PHEButton = {
-        let button = PHEButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Select a filter", for: .normal)
-        button.isEnabled = false
-        return button
-    }()
-
-    private let saveImageButton: PHEButton = {
-        let button = PHEButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Save image", for: .normal)
-        button.isEnabled = false
-        return button
-    }()
-
-    private let discardChangesButton: PHEButton = {
-        let button = PHEButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Discard changes", for: .normal)
-        button.isEnabled = false
-        return button
-    }()
-
-    private let selectImageButton: PHEButton = {
-        let button = PHEButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Select an image", for: .normal)
-        return button
-    }()
-
     var viewModel: ImageEditorViewModelInterface!
     var debounceTimer: Timer?
+    var editorPhotoView = ImageEditorView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        createView()
         configureActions()
         configureSliders()
     }
 
+    override func loadView() {
+        super.loadView()
+
+        self.view = editorPhotoView
+    }
+
     private func configureActions() {
-        imageFilterButton.addTarget(self, action: #selector(imageFilterButtonClicked), for: .touchUpInside)
-        saveImageButton.addTarget(self, action: #selector(saveImageButtonClicked), for: .touchUpInside)
-        discardChangesButton.addTarget(self, action: #selector(discardChangesButtonClicked), for: .touchUpInside)
-        selectImageButton.addTarget(self, action: #selector(selectImageButtonClicked), for: .touchUpInside)
+        editorPhotoView.imageFilterButton.addTarget(self, action: #selector(imageFilterButtonClicked), for: .touchUpInside)
+        editorPhotoView.saveImageButton.addTarget(self, action: #selector(saveImageButtonClicked), for: .touchUpInside)
+        editorPhotoView.discardChangesButton.addTarget(self, action: #selector(discardChangesButtonClicked), for: .touchUpInside)
+        editorPhotoView.selectImageButton.addTarget(self, action: #selector(selectImageButtonClicked), for: .touchUpInside)
     }
 
     private func configureSliders() {
-        brightnessSlider.delegate = self
-        brightnessSlider.isEnabled = false
+        editorPhotoView.brightnessSlider.delegate = self
+        editorPhotoView.brightnessSlider.isEnabled = false
 
-        contrastSlider.delegate = self
-        contrastSlider.isEnabled = false
+        editorPhotoView.contrastSlider.delegate = self
+        editorPhotoView.contrastSlider.isEnabled = false
 
-        saturationSlider.delegate = self
-        saturationSlider.isEnabled = false
+        editorPhotoView.saturationSlider.delegate = self
+        editorPhotoView.saturationSlider.isEnabled = false
 
-        brightnessSlider.configureView(text: "Brightness", value: 0.0, minValue: -1.0, maxValue: 1.0)
-        contrastSlider.configureView(text: "Contrast", value: 1.0, minValue: 0.0, maxValue: 2.0)
-        saturationSlider.configureView(text: "Saturation", value: 1.0, minValue: 0.0, maxValue: 2.0)
+        editorPhotoView.brightnessSlider.configureView(text: "Brightness", value: 0.0, minValue: -1.0, maxValue: 1.0)
+        editorPhotoView.contrastSlider.configureView(text: "Contrast", value: 1.0, minValue: 0.0, maxValue: 2.0)
+        editorPhotoView.saturationSlider.configureView(text: "Saturation", value: 1.0, minValue: 0.0, maxValue: 2.0)
     }
 
     @objc private func imageFilterButtonClicked(_ sender: UIButton) {
@@ -137,101 +70,37 @@ extension ImageEditorViewController: ImageEditorViewInterface {
 
     func imageSelected(image: UIImage) {
         DispatchQueue.main.async {
-            self.imageView.image = image
+            self.editorPhotoView.imageView.image = image
             
-            self.brightnessSlider.isEnabled = true
-            self.contrastSlider.isEnabled = true
-            self.saturationSlider.isEnabled = true
-            self.imageFilterButton.isEnabled = true
-            self.imageView.backgroundColor = .clear
+            self.editorPhotoView.brightnessSlider.isEnabled = true
+            self.editorPhotoView.contrastSlider.isEnabled = true
+            self.editorPhotoView.saturationSlider.isEnabled = true
+            self.editorPhotoView.imageFilterButton.isEnabled = true
+            self.editorPhotoView.imageView.backgroundColor = .clear
         }
     }
 
     func enableUpdatedsButton() {
         DispatchQueue.main.async {
-            self.saveImageButton.isEnabled = true
-            self.discardChangesButton.isEnabled = true
+            self.editorPhotoView.saveImageButton.isEnabled = true
+            self.editorPhotoView.discardChangesButton.isEnabled = true
         }
     }
 
     func configureViewsToInitialState() {
         DispatchQueue.main.async {
-            self.brightnessSlider.value = 0.0
-            self.contrastSlider.value = 1.0
-            self.saturationSlider.value = 1.0
+            self.editorPhotoView.brightnessSlider.value = 0.0
+            self.editorPhotoView.contrastSlider.value = 1.0
+            self.editorPhotoView.saturationSlider.value = 1.0
 
-            self.saveImageButton.isEnabled = false
-            self.discardChangesButton.isEnabled = false
+            self.editorPhotoView.saveImageButton.isEnabled = false
+            self.editorPhotoView.discardChangesButton.isEnabled = false
         }
     }
 }
 
 extension ImageEditorViewController {
-    func createView() {
-        view.backgroundColor = .backgroundColor
-        view.addSubview(scrollView)
-
-        scrollView.addSubview(contentView)
-        contentView.addSubview(imageView)
-        contentView.addSubview(brightnessSlider)
-        contentView.addSubview(contrastSlider)
-        contentView.addSubview(saturationSlider)
-
-        contentView.addSubview(selectImageButton)
-        contentView.addSubview(imageFilterButton)
-        contentView.addSubview(saveImageButton)
-        contentView.addSubview(discardChangesButton)
-
-        NSLayoutConstraint.activate([
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 62),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Margins.defaultMargin),
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Margins.defaultMargin),
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Margins.defaultMargin),
-            imageView.bottomAnchor.constraint(equalTo: brightnessSlider.topAnchor, constant: -Margins.defaultMargin),
-            imageView.heightAnchor.constraint(equalToConstant: 300),
-
-            brightnessSlider.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Margins.defaultMargin),
-            brightnessSlider.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Margins.defaultMargin),
-            brightnessSlider.bottomAnchor.constraint(equalTo: contrastSlider.topAnchor, constant: -Margins.defaultMargin),
-            brightnessSlider.heightAnchor.constraint(equalToConstant: 50),
-
-            contrastSlider.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Margins.defaultMargin),
-            contrastSlider.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Margins.defaultMargin),
-            contrastSlider.bottomAnchor.constraint(equalTo: saturationSlider.topAnchor, constant: -Margins.defaultMargin),
-            contrastSlider.heightAnchor.constraint(equalToConstant: 50),
-
-            saturationSlider.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Margins.defaultMargin),
-            saturationSlider.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Margins.defaultMargin),
-            saturationSlider.bottomAnchor.constraint(equalTo: selectImageButton.topAnchor, constant: -Margins.defaultMargin),
-            saturationSlider.heightAnchor.constraint(equalToConstant: 50),
-
-            selectImageButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Margins.defaultMargin),
-            selectImageButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Margins.defaultMargin),
-            selectImageButton.bottomAnchor.constraint(equalTo: imageFilterButton.topAnchor, constant: -Margins.defaultMargin),
-
-            imageFilterButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Margins.defaultMargin),
-            imageFilterButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Margins.defaultMargin),
-            imageFilterButton.bottomAnchor.constraint(equalTo: saveImageButton.topAnchor, constant: -Margins.defaultMargin),
-
-            saveImageButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Margins.defaultMargin),
-            saveImageButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Margins.defaultMargin),
-            saveImageButton.bottomAnchor.constraint(equalTo: discardChangesButton.topAnchor, constant: -Margins.defaultMargin),
-
-            discardChangesButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Margins.defaultMargin),
-            discardChangesButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Margins.defaultMargin),
-            discardChangesButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Margins.defaultMargin)
-        ])
-    }
+    
 }
 
 extension ImageEditorViewController: PHESliderProtocol {
@@ -239,11 +108,11 @@ extension ImageEditorViewController: PHESliderProtocol {
         debounceTimer?.invalidate()
         debounceTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
             switch sender {
-            case self.brightnessSlider:
+            case self.editorPhotoView.brightnessSlider:
                 self.viewModel.brightnessValue = value
-            case self.contrastSlider:
+            case self.editorPhotoView.contrastSlider:
                 self.viewModel.contrastValue = value
-            case self.saturationSlider:
+            case self.editorPhotoView.saturationSlider:
                 self.viewModel.saturationValue = value
             default:
                 break
