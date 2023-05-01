@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		512382962A0016170050D50E /* ImageEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512382952A0016170050D50E /* ImageEditorView.swift */; };
 		5158E83229F063B900470EB7 /* PHESlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5158E83129F063B900470EB7 /* PHESlider.swift */; };
 		5178581229EEECC400AFAC1D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178581129EEECC400AFAC1D /* AppDelegate.swift */; };
 		5178581429EEECC400AFAC1D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178581329EEECC400AFAC1D /* SceneDelegate.swift */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		512382952A0016170050D50E /* ImageEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageEditorView.swift; sourceTree = "<group>"; };
 		5158E83129F063B900470EB7 /* PHESlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHESlider.swift; sourceTree = "<group>"; };
 		5178580E29EEECC400AFAC1D /* PhotoEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5178581129EEECC400AFAC1D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				5178584729EEEF5300AFAC1D /* ImageEditorViewModel.swift */,
 				5178584A29EF202F00AFAC1D /* ImageEditorInterface.swift */,
 				5178581529EEECC400AFAC1D /* ImageEditorViewController.swift */,
+				512382952A0016170050D50E /* ImageEditorView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 				51C43CA929F00CDF009551EF /* PHEButton.swift in Sources */,
 				5158E83229F063B900470EB7 /* PHESlider.swift in Sources */,
 				51C43CAD29F01081009551EF /* Extensions.swift in Sources */,
+				512382962A0016170050D50E /* ImageEditorView.swift in Sources */,
 				5178581629EEECC400AFAC1D /* ImageEditorViewController.swift in Sources */,
 				5178581229EEECC400AFAC1D /* AppDelegate.swift in Sources */,
 				5178581429EEECC400AFAC1D /* SceneDelegate.swift in Sources */,
