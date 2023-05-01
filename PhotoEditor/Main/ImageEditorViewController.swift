@@ -9,8 +9,8 @@ import UIKit
 
 class ImageEditorViewController: UIViewController {
     var viewModel: ImageEditorViewModelInterface!
-    var debounceTimer: Timer?
-    var editorPhotoView = ImageEditorView()
+    private var debounceTimer: Timer?
+    private var editorPhotoView = ImageEditorView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +20,6 @@ class ImageEditorViewController: UIViewController {
 
     override func loadView() {
         super.loadView()
-
         self.view = editorPhotoView
     }
 
