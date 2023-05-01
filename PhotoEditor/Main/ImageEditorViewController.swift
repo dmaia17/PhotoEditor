@@ -99,13 +99,10 @@ extension ImageEditorViewController: ImageEditorViewInterface {
     }
 }
 
-extension ImageEditorViewController {
-    
-}
-
 extension ImageEditorViewController: PHESliderProtocol {
     func valueChanged(_ sender: PHESlider, value: Float) {
         debounceTimer?.invalidate()
+
         debounceTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
             switch sender {
             case self.editorPhotoView.brightnessSlider:
