@@ -19,7 +19,6 @@ class ImageEditorViewModel: NSObject {
     var selectedImage: UIImage? {
         didSet {
             if let selectedImage {
-
                 view?.imageSelected(image: selectedImage)
             }
         }
@@ -68,7 +67,7 @@ class ImageEditorViewModel: NSObject {
     }
 
     private func imageWithNewPropertiesApplied(completion: @escaping (UIImage?) -> Void) {
-        DispatchQueue.global(qos: .userInitiated).async {
+        DispatchQueue.global().async {
             let filter: CIFilter? = CIFilter(name: "CIColorControls")
 
             if let originalImage = self.originalImage, let filter, let sourceImage = CIImage(image: originalImage) {
